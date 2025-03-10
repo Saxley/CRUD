@@ -208,14 +208,14 @@ celdaAccion.innerHTML = `
     </button>
     <button type="button" class="btn btn-success btn-sm editarFila" data-bs-toggle="modal" data-bs-target="#editModal"
         data-id="${row.id}" 
-        data-nombre="${row.nombre}" 
-        data-apellido="${row.apellido}" 
-        data-cedula="${row.cedula}"
-        data-fecha="${row.fecha}"
-        data-telefono="${row.telefono}"
-        data-entidad="${row.entidad}"
-        data-tipoatencion="${row.tipoatencion}"
-        data-otro="${row.otro ?? ''}"> <!-- Asegura que "otro" no sea undefined -->
+        data-nombre="${row.Nombre}" 
+        data-apellido="${row.Apellido}" 
+        data-cedula="${row.Cedula}"
+        data-fecha="${row.Fecha}"
+        data-telefono="${row.Telefono}"
+        data-entidad="${row.Entidad}"
+        data-tipoatencion="${row.Tipoatencion}"
+        data-otro="${row.Otro ?? ''}"> <!-- Asegura que "otro" no sea undefined -->
         Editar
     </button>
 `;

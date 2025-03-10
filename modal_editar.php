@@ -27,7 +27,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="editForm" method="post">
+                    <form id="editForm">
                         <input type="hidden" name="id" id="id">
                         <div class="mb-3">
                             <label for="nombre">Nombre:</label>
@@ -82,14 +82,46 @@
         </div>
     </div>
     <script>
+    //FUNCIONA MUESTRA LOS DATOS DE LA FILA
+    $(document).on("click", ".editarFila", function() {
+        var id = $(this).data("id");
+        var nombre = $(this).data("nombre");
+        var apellido = $(this).data("apellido");
+        var cedula = $(this).data("cedula");
+        var fecha = $(this).data("fecha");
+        var telefono = $(this).data("telefono");
+        var entidad = $(this).data("entidad");
+        var tipoatencion = $(this).data("tipoatencion");
+        var detalleatencion = $(this).data("otro");
+
+        // Llenar los campos del formulario en el modal
+        $("#id").val(id);
+        $("#nombre").val(nombre);
+        $("#apellido").val(apellido);
+        $("#cedula").val(cedula);
+        $("#fecha").val(fecha);
+        $("#telefono").val(telefono);
+        $("#entidad").val(entidad);
+        $("#tipoatencion").val(tipoatencion);
+        $("#otro").val(detalleatencion);
+
+        if (tipoatencion === "Otro") {
+            $("#verotro").show();
+        } else {
+            $("#verotro").hide();
+            $("#otro").val('');
+        }
+    });
+    
+    //_______ NO FUNCIONA REVISAR LOS MOTIVOS _____
     //Validando si existe la Cedula en BD antes de enviar el Form
-    $("#addCedula").on("keyup", function() {
-    var cedula = $("#addCedula").val(); //CAPTURANDO EL VALOR DE INPUT CON ID CEDULA
-    var longitudCedula = $("#addCedula").val().length; //CUENTO LONGITUD
+    $("#cedula").on("keyup", function() {
+    var cedula = $("#cedula").val(); //CAPTURANDO EL VALOR DE INPUT CON ID CEDULA
+    var longitudCedula = $("#cedula").val().length; //CUENTO LONGITUD
 
     //Valido la longitud 
     if(longitudCedula >= 3){
-        var dataString = 'addCedula=' + cedula;
+        var dataString = 'cedula=' + cedula;
 
       $.ajax({
           url: 'verificar_cedula.php',
@@ -119,42 +151,10 @@
                 });
               }
           });
-          $(document).on("click", ".editarFila", function() {
-
-        var id = $(this).data("id");
-        var nombre = $(this).data("nombre");
-        var apellido = $(this).data("apellido");
-        var cedula = $(this).data("cedula");
-        var fecha = $(this).data("fecha");
-        var telefono = $(this).data("telefono");
-        var entidad = $(this).data("entidad");
-        var tipoatencion = $(this).data("tipoatencion");
-        var detalleatencion = $(this).data("otro");
-
-        console.log("Datos capturados:", { id, nombre, apellido, cedula, fecha, telefono, entidad, tipoatencion, detalleatencion });
-
-        // Llenar los campos del formulario en el modal
-        $("#id").val(id);
-        $("#nombre").val(nombre);
-        $("#apellido").val(apellido);
-        $("#cedula").val(cedula);
-        $("#fecha").val(fecha);
-        $("#telefono").val(telefono);
-        $("#entidad").val(entidad);
-        $("#tipoatencion").val(tipoatencion);
-        $("#otro").val(detalleatencion);
-
-        if (tipoatencion === "Otro") {
-            $("#verotro").show();
-        } else {
-            $("#verotro").hide();
-            $("#otro").val('');
-        }
-    });
 
     $('#editForm').on('submit', function(e) {
         e.preventDefault(); 
-
+      alert("Hola");
         $.ajax({
             type: "POST",
             url: "Actualizar.php",  
