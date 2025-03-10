@@ -112,68 +112,58 @@
             $("#otro").val('');
         }
     });
-    
-    //_______ NO FUNCIONA REVISAR LOS MOTIVOS _____
-    //Validando si existe la Cedula en BD antes de enviar el Form
-    $("#cedula").on("keyup", function() {
-    var cedula = $("#cedula").val(); //CAPTURANDO EL VALOR DE INPUT CON ID CEDULA
-    var longitudCedula = $("#cedula").val().length; //CUENTO LONGITUD
+    //VERIFICA LA CEDULA
+    $("#cedula").on("keyup", function(event) {
+    event.stopPropagation(); // Evita que el evento se propague
+    var cedula = $("#cedula").val();
+    var longitudCedula = cedula.length;
 
-    //Valido la longitud 
-    if(longitudCedula >= 3){
+    if (longitudCedula >= 3) {
         var dataString = 'cedula=' + cedula;
 
-      $.ajax({
-          url: 'verificar_cedula.php',
-          type: "GET",
-          data: dataString,
-          dataType: "JSON",
-
-          success: function(datos){
-
-                if( datos.success == 1){
-
-                $("#respuesta").html(datos.message);
-
-                $("input").attr('disabled',true); //Desabilito el input nombre
-                $("input#cedula").attr('disabled',false); //Habilitando el input cedula
-                $("#btnEnviar").attr('disabled',true); //Desabilito el Botton
-
-                }else{
-
-                $("#respuesta").html(datos.message);
-
-                $("input").attr('disabled',false); //Habilito el input nombre
-                $("#btnEnviar").attr('disabled',false); //Habilito el Botton
-
-                    }
-                  }
-                });
-              }
-          });
-
-    $('#editForm').on('submit', function(e) {
-        e.preventDefault(); 
-      alert("Hola");
         $.ajax({
-            type: "POST",
-            url: "Actualizar.php",  
-            data: $(this).serialize(),  
-            dataType: "json", 
-            success: function(response) {
-                if (response.status === 'success') {
-                    Swal.fire('Éxito', response.message, 'success').then(() => {
-                        location.reload(); 
-                    });
+            url: 'verificar_cedula.php',
+            type: "GET",
+            data: dataString,
+            dataType: "JSON",
+            success: function(datos) {
+                $("#respuesta").html(datos.message);
+                if (datos.success == 1) {
+                    $("input").not("#cedula").attr('disabled', true);
+                    $("#btnEnviar").attr('disabled', true);
                 } else {
-                    Swal.fire('Error', response.message, 'error');
+                    $("input").not("#cedula").attr('disabled', false);
+                    $("#btnEnviar").attr('disabled', false);
                 }
-            },
-            error: function() {
-                Swal.fire('Error', 'Ocurrió un error en la solicitud.', 'error');
             }
         });
+    }
+});
+    //_______ NO FUNCIONA REVISAR LOS MOTIVOS _____
+    //Validando si existe la Cedula en BD antes de enviar el Form
+
+    $('#editForm').on('submit', function(e) {
+    e.preventDefault(); 
+    console.log($(this).serialize()); // Para verificar los datos que se envían
+    $.ajax({
+        type: "POST",
+        url: "Actualizar.php",  
+        data: $(this).serialize(),  
+        dataType: "json", 
+        success: function(response) {
+            if (response.status === 'success') {
+                Swal.fire('Éxito', response.message, 'success').then(() => {
+                    location.reload(); 
+                });
+            } else {
+                Swal.fire('Error', response.message, 'error');
+            }
+        },
+        error: function() {
+            Swal.fire('Error', 'Ocurrió un error en la solicitud.', 'error');
+        }
     });
+});
 
 
 </script>
