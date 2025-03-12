@@ -1,8 +1,8 @@
 <?php
-$servername = "127.0.0.1";
+$servername = "localhost";
 $username = "root";
-$clave = "hola";
-$dbname = "bd_crua";
+$clave = "";
+$dbname = "db_crua";
 
 $conn = mysqli_connect($servername, $username, $clave, $dbname); 
 if (!$conn) {

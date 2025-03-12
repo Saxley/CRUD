@@ -1,26 +1,29 @@
 <?php
-include('Bd_registro.php');
+include('Bd_registro.php'); // Asegúrate de que aquí se establece correctamente la conexión en $conn
+
+$cedula = $_REQUEST['cedula'] ?? '';
+
+// Verificando si existe la cédula en la base de datos
 $jsonData = array();
 
-$cedula = $_GET['cedula'];
-//Verificando si existe algun cliente en bd ya con dicha cedula asignada
-//Preparamos un arreglo que es el que contendrá toda la información
-$selectQuery   = "SELECT Cedula FROM controlatencion WHERE Cedula='".$cedula."'";
-//$query         = mysqli_query($con, $selectQuery);
-$query         = mysqli_query($conn, $selectQuery);
-$totalCliente  = mysqli_num_rows($query);
+$selectQuery = "SELECT cedula FROM controlatencion WHERE cedula = ?";
+$stmt = $conn->prepare($selectQuery);
+$stmt->bind_param("s", $cedula);
+$stmt->execute();
+$result = $stmt->get_result();
+$totalCliente = $result->num_rows;
 
-  //Validamos que la consulta haya retornado información
-  if( $totalCliente <= 0 ){
-    $jsonData['success'] = 0;
-   $jsonData['message'] = 'No existe Cédula ' .$cedula;
-   // $jsonData['message'] = '';
-} else{
-    //Si hay datos entonces retornas algo
+if ($totalCliente > 0) {
     $jsonData['success'] = 1;
-    $jsonData['message'] = '<p style="color:red;">Ya existe la Cédula <strong>(' .$cedula.')<strong></p>';
-  }
-//Mostrando mi respuesta en formato Json
-header('Content-type: application/json');
-echo json_encode( $jsonData );
+    $jsonData['message'] = '⚠️ Esta cédula ya está registrada, pero puedes continuar.';
+} else {
+    $jsonData['success'] = 0;
+    $jsonData['message'] = ''; // No mostramos mensaje si no existe
+}
+
+// Mostrando la respuesta en formato JSON
+header('Content-type: application/json; charset=utf-8');
+echo json_encode($jsonData);
 ?>
+
+

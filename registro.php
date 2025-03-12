@@ -7,7 +7,6 @@ if ($conn->connect_error) {
     exit;
 }
 
-
 $nombre = $_POST['nombre'] ?? $_POST['addNombre'] ?? '';
 $apellido = $_POST['apellido'] ?? $_POST['addApellido'] ?? '';
 $cedula = $_POST['cedula'] ?? $_POST['addCedula'] ?? '';
@@ -20,21 +19,22 @@ $otro = $_POST['otro'] ?? $_POST['addOtro'] ?? '';
 if ($tipoatencion !== 'Otro') $otro = '-';
 
 // Verifica si la cédula ya existe
-$stmt = $conn->prepare("SELECT * FROM controlatencion WHERE Cedula = ?");
+$stmt = $conn->prepare("SELECT Cedula FROM controlatencion WHERE Cedula = ?");
 $stmt->bind_param("s", $cedula);
 $stmt->execute();
 $result = $stmt->get_result();
 
-$coincidencia = $result->num_rows > 0; // true si la cédula ya existe, false si no
+$sql = "INSERT INTO controlatencion (id, Nombre, Apellido, Cedula, Fecha, Telefono, Entidad, Tipoatencion, Otro)
+            VALUES (null, '$nombre', '$apellido', '$cedula', '$fecha', '$telefono', '$entidad', '$tipoatencion', '$otro')";
 
-    // Si no existe, registrar los datos
-    $stmt = $conn->prepare("INSERT INTO controlatencion (Nombre, Apellido, Cedula, Fecha, Telefono, Entidad, Tipoatencion, Otro) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("ssssssss", $nombre, $apellido, $cedula, $fecha, $telefono, $entidad, $tipoatencion, $otro);
-    
-    $response = $stmt->execute() ? ["success" => true, "message" => "Registro exitoso"] : ["success" => false, "message" => "Error: " . $stmt->error];
+$response = [];
+if ($conn->query($sql) === TRUE) {
+    $response = ["success" => true, "message" => "Datos guardados con éxito"];
+} else {
+    $response = ["success" => false, "message" => "Error: " . $conn->error];  // En caso de error
+}
 
-    echo json_encode(["response" => $response]);
+echo json_encode($response);  
 
-$stmt->close();
 $conn->close();
 ?>

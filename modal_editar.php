@@ -61,16 +61,16 @@
             </div>
             <div class="mb-3">
               <label for="tipoatencion">Tipo de atención:</label>
-              <select id="tipoatencion" class="form-select" name="tipoatencion" onchange="funcion_otro();" required>
+              <select id="tipoatencion" class="form-select" name="tipoatencion" required>
                 <option value="" selected>Seleccione el tipo de atención</option>
                 <option value="Cima-Crua-Moodle">Cima-Crua-Moodle</option>
                 <option value="Up-Virtual">Up-Virtual</option>
                 <option value="Otro">Otro</option>
               </select>
             </div>
-            <div id="verotro">
+            <div id="verotro" style = "display: none;">
               Agregue el tipo de atención:
-              <input type="text" id="otro" name="otro" required>
+              <input type="text" id="otro" name="otro">
             </div>
 
             <div class="modal-footer">
@@ -115,13 +115,14 @@
       $("#tipoatencion").val(tipo);
       $("#otro").val(otro);
 
-      if (tipoatencion === "Otro") {
-        $("#verotro").show();
-      } else {
-        $("#verotro").hide();
-        $("#otro").val('');
-      }
-    });
+  if (tipo === "Otro") {
+    $("#verotro").show();
+  } else {
+    $("#verotro").hide();
+    $("#otro").val(''); 
+  }
+  
+});
     //VERIFICA LA CEDULA
     $("#cedula").on("keyup", function(event) {
       var cedula = $("#cedula").val();
@@ -155,44 +156,57 @@
 
     let actualizar = document.getElementById('actualizar');
 
-    actualizar.addEventListener('click', () => {
-      modalId = $("#id").val();
-      modalNombre = $("#nombre").val();
-      modalApellido = $("#apellido").val();
-      modalCedula = $("#cedula").val();
-      modalFecha = $("#fecha").val();
-      modalTel = $("telefono").val();
-      modalEnt = $("#entidad").val();
-      modalTipo = $("#tipo").val();
-      modalOtro = $("#otro").val();
-      let form = new FormData();
-      form.append('id',
-        modalId);
-      form.append('nombre',
-        modalNombre);
-      form.append('apellido',
-        modalApellido);
-      form.append('cedula',
-        modalCedula);
-      form.append('fecha',
-        modalFecha);
-      form.append('telefono',
-        modalTel);
-      form.append('entidad',
-        modalEnt);
-      form.append('tipo',
-        modalTipo);
-      form.append('otro',
-        modalOtro);
-      fetch("Actualizar.php",
-        {
-          method: 'POST',
-          body: form
-        }).then(response => response.json())
-      .then(data => {
-        alert(data.message); // Aquí puedes trabajar con los datos recibidos
-      });
-    });
+actualizar.addEventListener('click', () => {
+    let modalId = $("#id").val();
+    let modalNombre = $("#nombre").val();
+    let modalApellido = $("#apellido").val();
+    let modalCedula = $("#cedula").val();
+    let modalFecha = $("#fecha").val();
+    let modalTel = $("#telefono").val(); 
+    let modalEnt = $("#entidad").val();
+    let modalTipo = $("#tipoatencion").val();
+    let modalOtro = $("#otro").val();
+
+    let form = new FormData();
+    form.append('id', modalId);
+    form.append('nombre', modalNombre);
+    form.append('apellido', modalApellido);
+    form.append('cedula', modalCedula);
+    form.append('fecha', modalFecha);
+    form.append('telefono', modalTel);
+    form.append('entidad', modalEnt);
+    form.append('tipoatencion', modalTipo);
+    form.append('otro', modalOtro);
+    
+
+    fetch("Actualizar.php", {
+        method: 'POST',
+        body: form
+        
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Respuesta del servidor:', data);
+         
+        if (data.success) {  
+            Swal.fire({
+                icon: 'success',
+                title: 'Datos capturados con éxito...!!',
+                showConfirmButton: false,
+                timer: 5000,
+            }).then(() => {
+                location.reload();
+            });
+        } else {
+            Swal.fire({
+                icon: 'error',
+                title: 'ERROR',
+                html: '<div class="alert alert-danger" role="alert">No se ha podido realizar...!<br>Reintente nuevamente por favor.</div>'
+            });
+        }
+    })
+});
+
   </script>
 </body>
 </html>

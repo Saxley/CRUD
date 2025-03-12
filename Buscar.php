@@ -1,37 +1,24 @@
 <?php
-include('Bd_registro.php');
+include 'conexion.php'; 
 
-// Recoger el término de búsqueda desde la solicitud
-$searchTerm = isset($_REQUEST['searchTerm']) ? $_REQUEST['searchTerm'] : '';
+if (isset($_GET['buscar'])) {
+    $criterio = "%" . $_GET['buscar'] . "%";
 
-// Verificando si hay un término de búsqueda
-if (!empty($searchTerm)) {
-    // Escapar el término de búsqueda para evitar inyecciones SQL
-    $searchTerm = mysqli_real_escape_string($conn, $searchTerm);
+    $sql = "SELECT * FROM tu_tabla WHERE 
+            Nombre LIKE ? OR 
+            Apellido LIKE ? OR 
+            Cedula LIKE ? OR 
+            Telefono LIKE ? OR 
+            Entidad LIKE ? OR 
+            Tipoatencion LIKE ? OR 
+            Detalleatencion LIKE ?";
 
-    // Crear la consulta SQL para buscar en varias columnas
-    $selectQuery = "SELECT * FROM controlatencion WHERE 
-                    nombre LIKE '%$searchTerm%' OR 
-                    apellido LIKE '%$searchTerm%' OR
-                    cedula LIKE '%$searchTerm%' OR
-                    fecha LIKE '%$searchTerm%' OR
-                    entidad LIKE '%$searchTerm%' OR
-                    tipoatencion LIKE '%$searchTerm%' OR
-                    otro LIKE '%$searchTerm%'";
-    // Ejecutar la consulta
-    $query = mysqli_query($conn, $selectQuery);
-    $results = array();
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("sssssss", $criterio, $criterio, $criterio, $criterio, $criterio, $criterio, $criterio);
+    $stmt->execute();
+    $resultado = $stmt->get_result();
 
-    // Recoger los resultados
-    while ($row = mysqli_fetch_assoc($query)) {
-        $results[] = $row;
-    }
-} else {
-    // Si no se proporciona término de búsqueda, no devolver datos
-    $results = array();
+    $datos = $resultado->fetch_all(MYSQLI_ASSOC);
+    echo json_encode($datos);
 }
-
-// Mostrar los resultados en formato JSON
-header('Content-type: application/json; charset=utf-8');
-echo json_encode($results);
 ?>

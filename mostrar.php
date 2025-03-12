@@ -11,10 +11,6 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">   
     <style>
-       body {
-            padding: 0;
-            margin: 0;
-        }
         .responsive {
             width: 15%; 
             display: block;
@@ -43,80 +39,39 @@
             display: block;
         }
 
-        
-        input[type="text"],
-        select {
-            width: 100%;
-            padding: 8px;
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
+        .navbar .container {
+            margin-left: -3px; /* Ajusta según necesidad */
         }
 
-        .position-absolute {
-            position: absolute;
-            top: 0; 
-            right: 0;
-            max-width: 100px; 
+        table {
+        border-collapse: collapse;
+        width: 100%;
+        }
+        .table-primary {
+        background-color: #cce5ff;
+        color: #004085;
+       }
+
+        th, td {
+        text-align: left;
+        padding: 8px;
+        border: 1px solid #ddd;
         }
 
-        .header {
-            padding: 1rem;
-            text-align: center;
+        th {
+        background-color: #f2f2f2;
         }
-
-        .header img {
-            max-width: 100%;
-            height: auto;
-        }
-
-        .navbar {
-            padding: 0.5rem 1rem;
-        }
-
-        .modal-body {
-            padding: 1rem;
-        }
-
-        @media (max-width: 767px) {
-            .modal-body {
-                padding: 0.5rem;
-            }
-
-            .form-control,
-            .form-select {
-                width: 100%;
-            }
-        }
-
-        .table {
-            width: 100%;
-            overflow-x: auto; 
-        }
-
-        .card {
-            margin: 1rem 0;
-        }
-
-        .row.g-4 {
-            flex-wrap: wrap;
-        }
-
-        .text-end {
-            text-align: end;
-        }
-
-    </style>
-</head>
-<body>
-    <div class="header d-flex flex-wrap">
+  </style>
+  </head>
+  <body>
+  <div class="header d-flex flex-wrap">
             <img src="./img/UP.png" alt="Universidad de Panamá" class="responsive">
     </div>
     <div class="text-center">
         <h2>ADMINISTRADOR</h2>
     </div>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark text-right"> 
-        <div class="container px-0">
+        <div class="container px-2">
         <a class="text-light" aria-current="page" style="text-decoration: none;">
                 <script type="text/javascript">
                         var mydate = new Date();
@@ -159,6 +114,8 @@
             </ul>
         </div>
     </div>
+    <?php include 'modal_agregar.php';?>
+    <?php include 'modal_editar.php';?>
 </nav>
 
     <!-- USUARIOS -->
@@ -181,391 +138,247 @@
             </select>
         </div>
         <div class="col-auto">
-            <label for="myInput" class="col-form-label">Registros:</label>
-        </div>
-        <div class="col-md-5 d-flex align-items-center justify-content-end">
-            <span class="me-2">Buscar:</span>
-            <input type="text" id="myInput" onkeyup="myFunction()" class="form-control" style="width: auto;">
-        </div>
-    </div>
-
-
-        <div class="row py-4">
-            <div class="col">
-                <table class="table table-sm table-bordered table-striped">
-                    <thead>
-                        <tr>
-                            <th class="sort asc">#</th>
-                            <th class="sort asc">Nombre</th>
-                            <th class="sort asc">Apellido</th>
-                            <th class="sort asc">Cédula</th>
-                            <th class="sort asc">Fecha</th>
-                            <th class="sort asc">Teléfono</th>
-                            <th class="sort asc">Entidad</th>
-                            <th class="sort asc">Tipo de atención</th>
-                            <th class="sort asc">Detalle de atención</th>
-                            <th class="sort asc">Acciones</th> 
-                        </tr>
-                    </thead>
-                    <tbody id="content"></tbody>
-                </table>
-            </div>
-        </div>
-
-        <!-- Paginación -->
-        <div class="row justify-content-between">
-            <div class="col-12 col-md-4 mb-2 mb-md-0">
-                <label id="lbl-total"></label>
-            </div>
-            <div class="col-12 col-md-4 mb-2 mb-md-0" id="nav-paginacion"></div>
-
-            <input type="hidden" id="pagina" value="1">
-            <input type="hidden" id="orderCol" value="0">
-            <input type="hidden" id="orderType" value="asc">
-        </div>
-    </div>
-</div>
-   <!-- Modal para agregar registro -->
-<div class="modal fade" id="add" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="addModalLabel">Agregar Nuevo Registro</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form id="addForm" method="post">
-                    <div class="mb-3">
-                        <label for="nombre">Nombre:</label>
-                        <input type="text" class="form-control" id="nombre" name="nombre" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="apellido">Apellido:</label>
-                        <input type="text" class="form-control" id="apellido" name="apellido" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="cedula">Cédula:</label>
-                        <input type="text" class="form-control" id="cedula" name="cedula" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="fecha">Fecha:</label>
-                        <input type="date" class="form-control" id="fecha" name="fecha" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="telefono">Teléfono:</label>
-                        <input type="tel" class="form-control" id="telefono" name="telefono" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="entidad">Entidad:</label>
-                        <select id="entidad" class="form-select" name="entidad" required>
-                            <option value="" selected>Seleccione la entidad</option>
-                            <option value="Estudiante">Estudiante</option>
-                            <option value="Administrativo">Administrativo</option>
-                            <option value="Profesor">Profesor</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="tipoatencion">Tipo de atención:</label>
-                        <select id="tipoatencion" name="tipoatencion" onchange="funcion_otro();" required>
-                            <option value="" selected>Seleccione el tipo de atención</option>
-                            <option value="Cima-Crua-Moodle">Cima-Crua-Moodle</option>
-                            <option value="Up-Virtual">Up-Virtual</option>
-                            <option value="Otro">Otro</option>
-                        </select>
-                        <div id="verotro" style="display:none;">
-                            Agregue el tipo de atención:
-                            <input type="text" id="otro" name="otro">
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
-                        <button type="submit" class="btn btn-primary">Guardar Registro</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-    <!-- Modal para editar registro -->
-    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Editar registro</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <label for="campo" class="col-form-label">Buscar: </label>
                 </div>
-                <div class="modal-body">
-                    <form id="editForm" method="post">
-                        <input type="hidden" name="id" id="id">
-                        <div class="mb-3">
-                            <label for="nombre">Nombre:</label>
-                            <input type="text" class="form-control" id="nombre" name="nombre" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="apellido">Apellido:</label>
-                            <input type="text" class="form-control" id="apellido "name="apellido" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="cedula">Cédula:</label>
-                            <input type="text" class="form-control" id="cedula" name="cedula" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="fecha">Fecha:</label>
-                            <input type="date" class="form-control" id="fecha" name="fecha" required>
-                            </div>
-                        <div class="mb-3">
-                            <label for="telefono">Teléfono:</label>
-                            <input type="tel" class="form-control" id="telefono"name="telefono" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="entidad" class="form-label">Entidad:</label>
-                            <select id="entidad" class="form-select" name="entidad" required>
-                                <option value="" selected>Seleccione la entidad</option>
-                                <option value="Estudiante">Estudiante</option>
-                                <option value="Administrativo">Administrativo</option>
-                                <option value="Profesor">Profesor</option>
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label for="tipoatencion">Tipo de atención:</label>
-                            <select id="tipoatencion" name="tipoatencion" onchange="funcion_otro();" required>
-                            <option value="" selected>Seleccione el tipo de atención</option>
-                            <option value="Cima-Crua-Moodle">Cima-Crua-Moodle</option>
-                            <option value="Up-Virtual">Up-Virtual</option>
-                            <option value="Otro">Otro</option>
-                        </select>
-                        <div id="verotro">
-                            Agregue el tipo de atención:
-                            <input type="text" id="otro" name="otro" required>
-                        </div>
-                    </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
-                            <button type="submit" class="btn btn-primary">Guardar cambios</button>
-                        </div>
-                    </form>
+                <div class="col-6 col-md-3 text-end">
+                    <input type="text" name="campo" id="campo" class="form-control">
                 </div>
-            </div>
+    </div>
+
+    <table class="table table-striped table-white" id="tblDatos"></table>
+            <div id="paginador" class="d-flex justify-content-end mt-4"></div>
+  <!-- Footer -->
+  <footer class="text-center text-sm-start text-dark" style="background-color: #ffffff">
+    
+    <!-- Section: Social media -->
+    <section class="d-flex justify-content-between p-4" style="background-color: #ffffff">
+        <div>
+        <a href="#top" aria-label="Back to top">
+        <i class="fa fa-chevron-circle-up"></i>
+            </a>
+        </div>
+    </section>
+    <section>
+    <div class="container text-center text-md-start mt-5 position-relative">
+      <div class="w-auto p-3">
+          <hr class="mb-4 mt-0" style="width: 30px; background-color: #7c4dff; height: 2px" />
+            <p>
+                Universidad de Panamá<br>
+                Centro Regional Universitario de Azuero
+            </p>
+        </div>
+        <div class="col-md-4 position-absolute" style="top: 0; right: 0; display: flex; flex-direction: column; align-items: flex-end;">
+            <img src="./img/deptinnovacion.png" alt="Innovación Tecnológica" class="img-fluid" style="max-width: 100px;" />
+            <p style="margin-left: -50px;">innovacion.crua@up.ac.pa</p>
         </div>
     </div>
-    <!-- Footer -->
-    <footer class="text-center text-sm-start text-dark" style="background-color: #ffffff">
+</footer>
+  <script>
+    let datos = [];  // Aquí guardaremos los datos obtenidos
+    let registrosPorPagina = 10; 
+    let paginaActual = 1;  // Página por defecto
+
+    // Obtener los datos desde el servidor
+    fetch('load.php')
+        .then(response => response.json())
+        .then(data => {
+            datos = data;
+            mostrarDatos();
+        })
+        .catch(error => console.error('Error:', error));
     
-        <!-- Section: Social media -->
-        <section class="d-flex justify-content-between p-4" style="background-color: #ffffff">
-            <div>
-            <a href="#top" aria-label="Back to top">
-            <i class="fa fa-chevron-circle-up"></i>
-                </a>
-            </div>
-        </section>
-        <section>
-        <div class="container text-center text-md-start mt-5 position-relative">
-          <div class="w-auto p-3">
-              <hr class="mb-4 mt-0" style="width: 30px; background-color: #7c4dff; height: 2px" />
-                <p>
-                    Universidad de Panamá<br>
-                    Centro Regional Universitario de Azuero
-                </p>
-            </div>
-            <div class="col-md-4 position-absolute" style="top: 0; right: 0; display: flex; flex-direction: column; align-items: flex-end;">
-                <img src="./img/deptinnovacion.png" alt="Innovación Tecnológica" class="img-fluid" style="max-width: 100px;" />
-                <p style="margin-left: -50px;">innovacion.crua@up.ac.pa</p>
-            </div>
-        </div>
-    </footer>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
-   <script>
-    $('#editModal').on('show.bs.modal', function (event) {
-    var button = $(event.relatedTarget); 
-    var dataInfo = JSON.parse(button.attr('data-info')); 
-    
-    $(this).find('#id').val(dataInfo.id);
-    $(this).find('#nombre').val(dataInfo.nombre);
-    $(this).find('#apellido').val(dataInfo.apellido);
-    $(this).find('#cedula').val(dataInfo.cedula);
-    $(this).find('#fecha').val(dataInfo.fecha);
-    $(this).find('#telefono').val(dataInfo.telefono);
-    $(this).find('#entidad').val(dataInfo.entidad);
-    $(this).find('#tipoatencion').val(dataInfo.tipoatencion);
-    $(this).find('#otro').val(dataInfo.Detalleatencion); 
-   
-    function funcion_otro() {
-    var tipoatencion = document.getElementById('tipoatencion').value;
-    
-    if (tipoatencion === "Otro") {
-        document.getElementById('verotro').style.display = 'block';
-    } else {
-        document.getElementById('verotro').style.display = 'none';
+    function obtenerDatosPaginacion() {
+        const url = `load_v2.php?p=${paginaActual}&rpp=${registrosPorPagina}&search=${searchQuery}`;  
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                datos = data;
+                mostrarDatos();
+            })
+            .catch(error => console.error('Error:', error));
     }
+// Función para mostrar los datos en la tabla
+function mostrarDatos() {
+    const tblDatos = document.getElementById("tblDatos");
+    tblDatos.innerHTML = ""; // Limpiar toda la tabla
+
+    // Crear encabezado
+    const encabezado = tblDatos.createTHead();
+    const filaEncabezado = encabezado.insertRow();
+    filaEncabezado.classList.add("table-primary");
+    filaEncabezado.insertCell().textContent = "Id";
+    filaEncabezado.insertCell().textContent = "Nombre";
+    filaEncabezado.insertCell().textContent = "Apellido";
+    filaEncabezado.insertCell().textContent = "Cedula";
+    filaEncabezado.insertCell().textContent = "Fecha";
+    filaEncabezado.insertCell().textContent = "Telefono";
+    filaEncabezado.insertCell().textContent = "Entidad";
+    filaEncabezado.insertCell().textContent = "Tipo de atencion";
+    filaEncabezado.insertCell().textContent = "Detalle de Atención";
+    filaEncabezado.insertCell().textContent = "Acciones";
+
+    // Crear cuerpo de la tabla
+    const cuerpo = tblDatos.createTBody();
+
+    const inicio = (paginaActual - 1) * registrosPorPagina;
+    const fin = Math.min(inicio + registrosPorPagina, datos.length);
+
+    for (let i = inicio; i < fin; i++) {
+        const fila = cuerpo.insertRow();
+        const row = datos[i];
+
+        for (const key in row) {
+            const celda = fila.insertCell();
+            celda.textContent = row[key];
+        }
+
+        const celdaAccion = fila.insertCell();
+        celdaAccion.innerHTML = `
+        <button type="button" class="btn btn-danger btn-sm eliminarFila" data-id="${row.id}">
+            Eliminar
+        </button>
+        <button type="button" class="btn btn-success btn-sm editarFila" data-bs-toggle="modal" data-bs-target="#editModal"
+            data-id="${row.id}" 
+            data-nombre="${row.Nombre}" 
+            data-apellido="${row.Apellido}" 
+            data-cedula="${row.Cedula}"
+            data-fecha="${row.Fecha}"
+            data-telefono="${row.Telefono}"
+            data-entidad="${row.Entidad}"
+            data-tipoatencion="${row.Tipoatencion}"
+            data-otro="${row.Otro}">
+            Editar
+        </button>
+    `;
+    }
+
+    mostrarPaginacion();
 }
-});
 
-    $('#editForm').on('submit', function(e) {
-        e.preventDefault(); 
-        let fechaIngresada = $('#fecha').val(); // Obtiene la fecha del input
-        console.log("Fecha ingresada:", fechaIngresada);
 
-        $.ajax({
-            type: "POST",
-            url: "Actualizar.php",  
-            data: $(this).serialize(),  
-            dataType: "json", 
-            success: function(response) {
-                if (response.status === 'success') {
-                    Swal.fire('Éxito', response.message, 'success').then(() => {
-                        location.reload(); 
-                    });
-                } else {
-                    Swal.fire('Error', response.message, 'error');
-                }
-            },
-            error: function() {
-                Swal.fire('Error', 'Ocurrió un error en la solicitud.', 'error');
-            }
-        });
+function mostrarPaginacion() {
+    const paginador = document.getElementById("paginador");
+    const totalPaginas = Math.ceil(datos.length / registrosPorPagina);
+    paginador.innerHTML = "";
+
+   
+    const ul = document.createElement("ul");
+    ul.className = "pagination";
+
+    // Botón "Anterior"
+    const prevLi = document.createElement("li");
+    prevLi.className = `page-item ${paginaActual === 1 ? "disabled" : ""}`;
+    prevLi.innerHTML = `<a class="page-link" href="#">‹</a>`;
+    if (paginaActual > 1) {
+        prevLi.addEventListener("click", () => cambiarPagina(paginaActual - 1));
+    }
+    ul.appendChild(prevLi);
+
+    // Botones de las páginas
+    for (let i = 1; i <= totalPaginas; i++) {
+        const li = document.createElement("li");
+        li.className = `page-item ${i === paginaActual ? "active" : ""}`;
+        li.innerHTML = `<a class="page-link" href="#">${i}</a>`;
+        li.addEventListener("click", () => cambiarPagina(i));
+        ul.appendChild(li);
+    }
+
+    // Botón "Siguiente"
+    const nextLi = document.createElement("li");
+    nextLi.className = `page-item ${paginaActual === totalPaginas ? "disabled" : ""}`;
+    nextLi.innerHTML = `<a class="page-link" href="#">›</a>`;
+    if (paginaActual < totalPaginas) {
+        nextLi.addEventListener("click", () => cambiarPagina(paginaActual + 1));
+    }
+    ul.appendChild(nextLi);
+
+    paginador.appendChild(ul);
+}
+
+
+    // Cambiar de página
+    function cambiarPagina(pagina) {
+    if (pagina > 0 && pagina <= Math.ceil(datos.length / registrosPorPagina)) {
+        paginaActual = pagina;
+        console.log('Página actual:', paginaActual);
+        mostrarDatos();
+    }
+    }
+
+    // Cambiar el número de registros por página
+    document.getElementById("num_registros").addEventListener("change", function () {
+        registrosPorPagina = parseInt(this.value);
+        paginaActual = 1; 
+        mostrarDatos();
     });
 
-            // Filtrar resultados de la tabla
-            function myFunction() {
-                var input = document.getElementById("myInput");
-                var filter = input.value.toUpperCase();
-                var table = document.querySelector("table");
-                var tr = table.getElementsByTagName("tr");
+    function myFunction() {
+    var input, filter, table, tr, td, i, j, txtValue, match;
+    input = document.getElementById("campo");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("tblDatos");
+    tr = table.getElementsByTagName("tr");
 
-                for (let i = 1; i < tr.length; i++) {
-                    tr[i].style.display = "none";
-                    for (let j = 0; j < tr[i].getElementsByTagName("td").length; j++) {
-                        let td = tr[i].getElementsByTagName("td")[j];
-                        if (td) {
-                            let txtValue = td.textContent || td.innerText;
-                            if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                                tr[i].style.display = "";
-                                break;
-                            }
-                        }
-                    }
-                }
+    for (i = 1; i < tr.length; i++) { 
+        match = false;
+        td = tr[i].getElementsByTagName("td");
+        
+        for (j = 0; j < td.length - 1; j++) { 
+        if (td[j]) {
+            txtValue = td[j].textContent || td[j].innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            match = true;
+            break;
             }
+        }
+        }
+
+        tr[i].style.display = match ? "" : "none";
+    }
+    }
+
+// Evento para ejecutar la búsqueda en tiempo real
+document.getElementById("campo").addEventListener("input", myFunction);
+
+
+    // Eliminar una fila de la tabla
+    function eliminarFila(button) {
+        const fila = button.parentElement.parentElement;
+        fila.remove();
+    }
+
+    $(document).on("click", ".eliminarFila", function(event) {
+    event.preventDefault();
+    var atencion_id = $(this).data('id');
+
+    Swal.fire({
+        title: '¿Está seguro de eliminar?',
+        text: "Esta acción no se puede deshacer.",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí, eliminar',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.post("./eliminar.php", { id: atencion_id }, function(response) {
+                if (response.status === 'success') {
+                    Swal.fire('Eliminado!', response.message, 'success');
+                    $(`button[data-id="${atencion_id}"]`).closest("tr").remove();
+                } else {
+                    Swal.fire('Error!', response.message, 'error');
+                }
+            }, "json").fail(function() {
+                Swal.fire('Error!', 'Ocurrió un error al intentar eliminar.', 'error');
+            });
+        }
+    });
+});
+
+
             
 
-           // Cargar datos al cargar la página
-document.addEventListener("DOMContentLoaded", getData);
-
-function getData() {
-    let input = document.getElementById("myInput").value;
-    let num_registros = document.getElementById("num_registros").value;
-    let content = document.getElementById("content");
-    let pagina = document.getElementById("pagina").value || 1;
-    let orderCol = document.getElementById("orderCol").value;
-    let orderType = document.getElementById("orderType").value;
-
-    let formaData = new FormData();
-    formaData.append('campo', input);
-    formaData.append('registros', num_registros);
-    formaData.append('pagina', pagina);
-    formaData.append('orderCol', orderCol);
-    formaData.append('orderType', orderType);
-
-    fetch("load.php", {
-        method: "POST",
-        body: formaData
-    })
-    .then(response => response.json()) // Convertimos la respuesta a JSON
-    .then(data => {
-        console.log(data); // Para depuración
-
-        // Construir las filas de la tabla dinámicamente
-        let filas = "";
-        if (data.data.length > 0) {
-            data.data.forEach(row => {
-                filas += `<tr>
-                    <td>${row.nombre}</td>
-                    <td>${row.apellido}</td>
-                    <td>${row.Cedula}</td>
-                    <td>${row.fecha}</td>
-                    <td>${row.teléfono}</td>
-                </tr>`;
-            });
-        } else {
-            filas = `<tr><td colspan="5">Sin resultados</td></tr>`;
-        }
-        
-        // Insertamos las filas en la tabla
-        content.innerHTML = filas;
-
-        // Actualizar paginación y total de registros
-        document.getElementById("lbl-total").innerText = `Total registros: ${data.totalRegistros}`;
-        document.getElementById("nav-paginacion").innerHTML = data.paginacion;
-
-        // Si no hay resultados y la página no es la primera, volver a la primera
-        if (data.data.length === 0 && parseInt(pagina) !== 1) {
-            nextPage(1);
-        }
-    })
-    .catch(err => console.error("Error en la petición:", err));
-}
-
-function nextPage(pagina) {
-    document.getElementById('pagina').value = pagina;
-    getData();
-}
-
-
-            function ordenar(e) {
-                let elemento = e.target;
-                let orderType = elemento.classList.contains("asc") ? "desc" : "asc";
-                document.getElementById('orderCol').value = elemento.cellIndex;
-                document.getElementById("orderType").value = orderType;
-                elemento.classList.toggle("asc");
-                elemento.classList.toggle("desc");
-                getData();
-            }
-
-            document.getElementById("num_registros").addEventListener("change", getData);
-
-            document.querySelectorAll(".sort").forEach(column => {
-                column.addEventListener("click", ordenar);
-            });
-        
-
-                $(document).on("click", ".eliminar", function(event) {
-                    event.preventDefault();
-                    var atencion_id = $(this).data('id');
-                    Swal.fire({
-                        title: '¿Está seguro de eliminar?',
-                        text: "Esta acción no se puede deshacer.",
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Sí, eliminar',
-                        cancelButtonText: 'Cancelar'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            $.ajax({
-                                method: "POST",
-                                url: "./eliminar.php",
-                                data: { id: atencion_id },
-                                dataType: "json",
-                                success: function(response) {
-                                    if (response.status === 'success') {
-                                        Swal.fire('Eliminado!', response.message, 'success').then(() => {
-                                            location.reload();
-                                        });
-                                    } else {
-                                        Swal.fire('Error!', response.message, 'error');
-                                    }
-                                },
-                                error: function() {
-                                    Swal.fire('Error!', 'Ocurrió un error al intentar eliminar.', 'error');
-                                }
-                            });
-                        }
-                    });
-                });
             $('#cerrarsesion').click(function(e) {
                     e.preventDefault(); 
 
@@ -585,7 +398,8 @@ function nextPage(pagina) {
                         }
                     });
                 });
-            
+
     </script>
-</body>
+  
+  </body>
 </html>

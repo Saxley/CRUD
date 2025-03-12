@@ -409,6 +409,7 @@
         <div class="col-12">
           <label for="cedula" class="form-label">Cédula</label>
           <input id="cedula" type="text" name="cedula" placeholder="*Cédula" required />
+          <p id="mensaje" style="color: orange; font-size: 14px;"></p>
       </div>
       <div class="col-12">
         <label for="fecha" class="form-label">Fecha</label>
@@ -468,36 +469,22 @@ Designed by
 </div>
 </div>
 <script>
-// Validando si existe la Cedula en BD antes de enviar el Formulario
-// coincidencia::sera un booleano para evitar que se registre la misma cedula.
-let coincidencia = false; // Define la variable en un ámbito global dentro de tu script
+document.getElementById("cedula").addEventListener("input", function() {
+    let cedula = this.value;
 
-const cedulaInput = document.getElementById('cedula');
-let respuesta = document.getElementById('respuesta');
-
-cedulaInput.addEventListener('keyup', () => {
-  const cedula = cedulaInput.value.trim();
-  if (cedula.length >= 3) {
-      fetch(`verificar_cedula.php?cedula=${cedula}`,{
-        method: 'GET'
-      }
-      )
-          .then(response => response.json())
-          .then(datos => {
-              if (datos.success === 1) {
-                  coincidencia = true; // Actualiza la variable
-                  respuesta.innerHTML = datos.message;
-                  document.getElementById('registro').disabled = true;
-              } else {
-                  coincidencia = false; // Actualiza la variable
-                  respuesta.innerHTML = "";
-                  document.getElementById('registro').disabled = false;
-              }
-          })
-          .catch(error => console.error("Error en la verificación de cédula:", error));
-  }
+    fetch("verificar_cedula.php?cedula=" + encodeURIComponent(cedula))
+        .then(response => response.json())
+        .then(data => {
+            let mensaje = document.getElementById("mensaje");
+            if (data.success === 1) {
+                mensaje.textContent = "⚠️ Esta cédula ya ha sido registrada, pero puedes continuar.";
+                mensaje.style.color = "orange";
+            } else {
+                mensaje.textContent = "";
+            }
+        })
+        
 });
-
 // When the user scrolls the page, execute myFunction
 window.onscroll = function() {
 myFunction()};
@@ -593,7 +580,7 @@ $('#login').submit(function(event) {
         url: 'usuario.php',
         type: 'POST',
         data: {
-            user: user, // Se incluye el usuario
+            user: user, 
             password: password
         },
         success: function(response) {
@@ -619,80 +606,74 @@ $('#login').submit(function(event) {
                     backdrop: `rgba(34, 139, 34, 0.5) left top no-repeat`
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        window.location.href = "mostrar_ejemplo.php";
+                        window.location.href = "mostrar.php";
                     }
                 });
             }
         },
-        error: function() {
-            Swal.fire({
-                icon: 'error',
-                title: 'Error de conexión',
-                text: 'Por favor, intenta nuevamente.',
-                color: "#d08778",
-                background: "#fff",
-                backdrop: `rgba(255, 0, 0, 0.4) left top no-repeat`
-            });
-        }
     });
 
     return false;
 });
 
-
 $('#registro').submit(function(event) {
-  event.preventDefault();
+    event.preventDefault();
 
-  // Recopilación de variables
-  var data = {
-    nombre: $("#nombre").val(),
-    apellido: $("#apellido").val(),
-    cedula: $("#cedula").val(),
-    fecha: $("#fecha").val(),
-    telefono: $("#telefono").val(),
-    entidad: $("#entidad").val(),
-    tipoatencion: $("#tipoatencion").val(),
-    otro: $("#otro").val() || ""
-  };
+    // Recopilación de las variables
+    var nombre = $("#nombre").val();
+    var apellido = $("#apellido").val();
+    var cedula = $("#cedula").val();
+    var fecha = $("#fecha").val();
+    var tel = $("#telefono").val();
+    var entidad = $("#entidad").val();
+    var tipoatencion = $("#tipoatencion").val();
+    var otro = $("#otro").val() || ""; 
 
-  $.ajax({
-    url: 'registro.php',
-    type: 'POST',
-    data: data,
-    success: function(response) {
-      console.log('Respuesta del servidor:', response);
+    var data = {
+        nombre: nombre,
+        apellido: apellido,
+        cedula: cedula,
+        fecha: fecha,
+        telefono: tel,
+        entidad: entidad,
+        tipoatencion: tipoatencion,
+        otro: otro
+    };
 
-      // Verifica la existencia de la cédula antes de procesar el resultado
-      if (coincidencia) {
-        // Si la cédula ya existe, muestra el mensaje correspondiente
-        Swal.fire({
-          icon: 'warning',
-          title: '¡Atención!',
-          text: response.message || 'La cédula ya existe en el sistema.'
-        });
-      } else {
-        // Si el registro es exitoso, muestra los datos
-        if (response.success) {
-          Swal.fire({
-            icon: 'success',
-            title: 'Datos capturados con éxito!',
-            html: Object.entries(data).map(([key, value]) => `${key}: ${value}`).join('<br>'),
-            showConfirmButton: false,
-            timer: 5000
-          }).then(() => location.reload());
-        } else {
-          // En caso de error al guardar
-          Swal.fire({
-            icon: 'error',
-            title: 'Error',
-            text: response.response.message || 'No se pudo guardar los datos. Intenta nuevamente.'
-          });
-        }
-      }
-    }
-  });
+    $.ajax({
+        url: 'registro.php',
+        type: 'POST',
+        data: data,
+        success: function(response) {
+            console.log('Respuesta del servidor:', response);
+            if (response.success) {  
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Datos capturados con éxito...!!',
+                    showConfirmButton: false,
+                    timer: 5000,
+                    html: '<b>Nombre:</b> ' + data['nombre'] + '<br>' +
+                          '<b>Apellido:</b> ' + data['apellido'] + '<br>' +
+                          '<b>Cedula:</b> ' + data['cedula'] + '<br>' +
+                          '<b>Fecha:</b> ' + data['fecha'] + '<br>' +
+                          '<b>Telefono:</b> ' + data['telefono'] + '<br>' +
+                          '<b>Entidad:</b> ' + data['entidad'] + '<br>' +
+                          '<b>Tipoatencion:</b> ' + data['tipoatencion'] + '<br>' +
+                          '<b>Otro:</b> ' + data['otro']
+                }).then(function() {
+                    location.reload(); 
+                });
+            } else {
+                // Si ocurre un error
+                Swal.fire({
+                    icon: 'error',
+                    title: 'ERROR',
+                    html: '<div class="alert alert-Warning" role="alert">' + response.message + '</div>'
+                });
+            }
+        },
+    });
 });
-
 
 </script>
 </body>
