@@ -134,7 +134,7 @@
         </div>
     </div>
     <?php include 'modal_agregar.php';?>
-    <?php include 'modal_editarr.php';?>
+    <?php include 'modal_editar.php';?>
 </nav>
 
     <!-- USUARIOS -->
