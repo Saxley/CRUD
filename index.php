@@ -1,18 +1,15 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-  <title>Innovación tecnológica</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" type="image/x-icon" href="./img/innovacion.ico">
-  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.13.1/dist/sweetalert2.min.css">
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.13.1/dist/sweetalert2.all.min.js"></script>
-
+  <head>
+    <title>Innovación tecnológica</title>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/x-icon" href="./img/innovacion.ico">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.13.1/dist/sweetalert2.all.min.js"></script>
   <style>
     * {
       text-decoration: none;
@@ -27,26 +24,28 @@
       margin: 0;
       background-color: rgb(255, 255, 255) !important;
     }
-    .flex-container {
-      display: flex;
-      justify-content: center;
-      text-align: center;
-      align-items: center;
-    }
+    
 
+    .flex-container{
+            display: flex;
+            justify-content: center;
+            text-align: center;
+            align-items: center; 
+    }
+          
     .img-1,
     .img-2, .img-fluid {
-      width: 130px;
-      height: 140px;
+      width: 200px;
+      height: 180px;
       background-color: transparent;
     }
     .background-container {
       min-height: 100vh;
       display: flex;
-      align-items: flex-start;
+      align-items: flex-start; 
       justify-content: center;
-      position: relative;
-      overflow: hidden;
+      position: relative; 
+      overflow: hidden; 
     }
 
     .background-container::before {
@@ -60,10 +59,10 @@
       background-size: cover;
       background-repeat: no-repeat;
       background-position: center;
-      opacity: 0.5;
-      z-index: -1;
+      opacity: 0.5; 
+      z-index: -1; 
     }
-
+    
     .navbar {
       position: relative;
       display: flex;
@@ -71,18 +70,17 @@
       flex-wrap: wrap;
       background-color: rgba(12, 12, 13, 0.8);
       height: 60px;
-      padding: 0 15px;
+      padding: 0 25px;
       transition: background-color 0.3s ease;
     }
-    .nav-link {
+    .nav-link{
       color: #fff;
     }
     .navbar-nav {
-      margin-left: auto;
+        margin-left: auto;
     }
-
-    .content {
-      padding: 16px;
+          .nav-link:hover {
+    color: #fff; 
     }
     .sticky {
       position: fixed;
@@ -90,8 +88,11 @@
       width: 100%;
       background-color: rgba(51, 51, 51, 0.9);
       color: white;
+      z-index: 1000;
     }
-
+    .sticky + .content {
+      padding-top: 60px;
+    }
     @media screen and (max-width: 600px) {
       .d-flex:not(:first-child) {
         display: none;
@@ -105,13 +106,7 @@
 
     @media screen and (max-width: 600px) {
       .navbar.navbar-expand-lg.responsive {
-        position: relative;
-      }
-
-      .navbar-expand-lg.responsive .icon {
         position: absolute;
-        right: 0;
-        top: 0;
       }
 
       .navbar,
@@ -122,14 +117,6 @@
     }
     .sticky + .content {
       padding-top: 60px;
-    }
-
-    .img-flex {
-      display: block;
-      margin-left: auto;
-      margin-right: auto;
-      width: 30%;
-      height: 20%;
     }
     .cancelbtn {
       background-color: red;
@@ -146,18 +133,19 @@
     }
 
     .modal-box {
-      width: 25%;
+      width: 90%;
+      max-width: 400px;
       position: absolute;
       top: 30%;
       left: 50%;
       transform: translateX(-50%);
       background-color: white;
       text-align: center;
-      padding: 0;
+      padding: 20px;
       animation-name: zoom;
       animation-duration: .7s;
       border: 1px solid #b7b7b7;
-      border-radius: 4px;
+      border-radius: 10px;
       box-shadow: 1px 1px 8px rgba(35, 120, 204, 0.8);
     }
 
@@ -175,8 +163,7 @@
       color: #c6c6c6;
     }
 
-    input[type=text],
-    input[type=password] {
+    input[type=text],{
       width: 100%;
       border: 1px solid #d0d0d0;
       display: block;
@@ -184,13 +171,24 @@
       margin: 5px 0;
       margin-bottom: 10px;
     }
-
-    .modal-box {
+    .salvar {
+      width: 100%;
       padding: 10px;
-      font-size: 15px;
-      display: block;
+      background-color: #1C76C6;
       color: white;
-      margin: 16px 0;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+      .limpiar {
+        width: 100%;
+        padding: 10px;
+        background-color:rgb(160, 165, 170);
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
     }
     .logear {
       padding: 10px;
@@ -206,7 +204,7 @@
 
     .modal-box label,
     .modal-box input {
-      width: 95%;
+      width: 100%;
       display: block;
       margin: 10px auto;
     }
@@ -306,13 +304,6 @@
       margin: 10px 0 5px;
     }
 
-
-    input[type=reset] {
-      width: auto;
-      color: #ffffff;
-      padding: 10px 18px;
-      background-color: #C61D20;
-    }
     .registro {
       width: 100%;
       padding: 10px;
@@ -335,7 +326,7 @@
 
     @media only screen and (min-width: 576px) {
       .container {
-        width: 540px;
+        width: 600px;
       }
     }
 
@@ -350,6 +341,64 @@
         margin-top: 0;
       }
     }
+    #registro1 {
+      margin-top: 20px;
+    }
+    @media (max-width: 767px) {
+    .flex-container {
+    flex-direction: flex; 
+    align-items: center;
+    }
+
+    .navbar-nav {
+    flex-direction: column; 
+    }
+
+    .navbar-nav .nav-item {
+    margin: 5px 0; 
+    }
+
+    .modal-box {
+    width: 90%;
+    }
+
+    }
+
+    @media (min-width: 768px) and (max-width: 1024px) {
+    .flex-container {
+    flex-direction: row; 
+    }
+
+    .navbar-nav {
+    flex-direction: row; 
+    }
+
+    .modal-box {
+    width: 80%;
+    }
+    }
+    @media (min-width: 1025px) {
+    .flex-container {
+    flex-direction: row;
+    }
+
+    .navbar-nav {
+    flex-direction: row;
+    }
+
+    .modal-box {
+    width: 60%;
+    }
+    }
+    .card {
+    margin: 20px 0;
+    }
+
+    .card-footer {
+    padding: 10px;
+    background-color:rgb(107, 144, 104);
+    }
+
   </style>
 </head>
 <body>
@@ -367,8 +416,8 @@
   <div class="text-center">
     <h2>DEPARTAMENTO DE INNOVACIÓN TECNLÓGICA</h2>
   </div>
-  <nav id="navbar" class="navbar navbar-expand-lg navbar">
-    <ul class="navbar-nav">
+  <nav id="navbar" class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <ul class="navbar-nav">
       <li class="nav-item">
         <a class="nav-link" href="#" id="addbtn" data-bs-toggle="modal" data-bs-target="#add">Administrador</a>
       </li>
@@ -394,7 +443,7 @@
   <div class="background-container">
     <div class="container">
       <div class="row">
-        <form id="registro">
+        <form id="registro1">
           <div class="p-3 border round">
             <h1>FORMULARIO DE CONTROL DE ATENCIÓN</h1>
             <br><br>
@@ -441,10 +490,10 @@
       <input type="text" name="otro" id="otro">
     </div>
   </div>
-  <input type="reset" value="Limpiar">
   <div class="modal-footer">
-    <button type="submit" class="registro" id="btnEnviar">Guardar</button>
-  </div>
+                <button type="reset" class="limpiar mt-1" >Limpiar</button>
+                <button type="submit" id="registro" class="salvar mt-1">Guardar</button>
+              </div>
 </div>
 </form>
 </div>
@@ -606,7 +655,7 @@ $('#login').submit(function(event) {
                     backdrop: `rgba(34, 139, 34, 0.5) left top no-repeat`
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        window.location.href = "mostrar.php";
+                        window.location.href = "mostrarrr.php";
                     }
                 });
             }

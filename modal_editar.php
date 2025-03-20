@@ -6,8 +6,9 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://getbootstrap.com/docs/5.2/assets/css/docs.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-</head>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  </head>
 <body>
   <style>
     input[type="text"],
@@ -18,7 +19,9 @@
       border: 1px solid #ccc;
       border-radius: 4px;
     }
+    
   </style>
+  <!-- Modal -->
   <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
@@ -115,14 +118,14 @@
       $("#tipoatencion").val(tipo);
       $("#otro").val(otro);
 
-  if (tipo === "Otro") {
-    $("#verotro").show();
-  } else {
-    $("#verotro").hide();
-    $("#otro").val(''); 
-  }
-  
-});
+    if (tipo === "Otro") {
+      $("#verotro").show();
+    } else {
+      $("#verotro").hide();
+      $("#otro").val(''); 
+    }
+    
+  });
     //VERIFICA LA CEDULA
     $("#cedula").on("keyup", function(event) {
       var cedula = $("#cedula").val();

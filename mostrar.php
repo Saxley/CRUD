@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="utf-8">
+<meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Registros del departamento de innovación tecnológica</title>
     <link rel="icon" type="image/x-icon" href="./img/innovacion.ico">
@@ -9,69 +9,86 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">   
-    <style>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"> 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>  
+      <style>
         .responsive {
             width: 15%; 
             display: block;
             margin-left: auto;
             margin-right: auto;
         }
-
-        .nav-item.dropdown {
-            position: relative;
+        .slider-container {
+            width: 100%;
+            overflow-x: auto;
+            white-space: nowrap;
+            border: 2px solid #ccc;
+            padding: 10px 0;
         }
 
-        .nav-link {
-            display: flex;
-            align-items: center; 
+        
+        .slider-content {
+            display: inline-block;
+            margin-right: 15px;
+            width: 100px;
+            height: 100px;
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            line-height: 100px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
-        .dropdown-menu {
-            display: none;
-            position: absolute;
-            background-color: #f9f9f9;
-            min-width: 160px;
-            z-index: 1050;
+        @media (max-width: 767px) {
+            .slider-content {
+                width: 50px;  
+                height: 80px;  
+            }
+        }
+        @media (min-width: 768px) and (max-width: 1024px) {
+            .slider-content {
+                width: 100px;  
+                height: 90px;  
+            }
+        }
+        @media (min-width: 1025px) {
+            .slider-content {
+                width: 200px; 
+                height: 100px; 
+            }
+        }
+        footer {
+        background-color: #ffffff;
+        padding: 20px 0;
         }
 
-        .dropdown:hover .dropdown-menu {
-            display: block;
+        footer .container {
+        padding: 0 15px;
         }
-
-        .navbar .container {
-            margin-left: -3px; /* Ajusta según necesidad */
+        @media (max-width: 576px) {
+        footer .text-center {
+            text-align: center;
         }
-
-        table {
-        border-collapse: collapse;
-        width: 100%;
+        footer .d-flex {
+            flex-direction: column; 
+            align-items: center;
         }
-        .table-primary {
-        background-color: #cce5ff;
-        color: #004085;
-       }
-
-        th, td {
-        text-align: left;
-        padding: 8px;
-        border: 1px solid #ddd;
+        footer .col-md-4 {
+            text-align: center;
         }
-
-        th {
-        background-color: #f2f2f2;
         }
   </style>
   </head>
   <body>
   <div class="header d-flex flex-wrap">
             <img src="./img/UP.png" alt="Universidad de Panamá" class="responsive">
-    </div>
+  *</div>
     <div class="text-center">
         <h2>ADMINISTRADOR</h2>
     </div>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark text-right"> 
-        <div class="container px-2">
+        <div class="container px-2 ">
         <a class="text-light" aria-current="page" style="text-decoration: none;">
                 <script type="text/javascript">
                         var mydate = new Date();
@@ -85,9 +102,11 @@
 
                         document.write(dayarray[day] + " " + daym + " de " + montharray[month] + " de " + year);
                 </script>
-
-        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-            <ul class="navbar-nav">
+        
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                 <li class="nav-item">
                     <a class="nav-link active" href="add.php" id="addbtn" data-bs-toggle="modal" data-bs-target="#add">
                     <i class="bi bi-person-fill-add"></i>
@@ -115,7 +134,7 @@
         </div>
     </div>
     <?php include 'modal_agregar.php';?>
-    <?php include 'modal_editar.php';?>
+    <?php include 'modal_editarr.php';?>
 </nav>
 
     <!-- USUARIOS -->
@@ -144,34 +163,37 @@
                     <input type="text" name="campo" id="campo" class="form-control">
                 </div>
     </div>
-
+    <div class="slider-container">
     <table class="table table-striped table-white" id="tblDatos"></table>
-            <div id="paginador" class="d-flex justify-content-end mt-4"></div>
-  <!-- Footer -->
-  <footer class="text-center text-sm-start text-dark" style="background-color: #ffffff">
-    
+    </div>
+<div id="paginador" class="d-flex justify-content-end mt-4"></div>
+
+<footer class="text-center text-sm-start text-dark" style="background-color: #ffffff; width: 100%; padding: 20px 0;">
     <!-- Section: Social media -->
     <section class="d-flex justify-content-between p-4" style="background-color: #ffffff">
         <div>
-        <a href="#top" aria-label="Back to top">
-        <i class="fa fa-chevron-circle-up"></i>
+            <a href="#top" aria-label="Back to top">
+                <i class="fa fa-chevron-circle-up"></i>
             </a>
         </div>
     </section>
     <section>
-    <div class="container text-center text-md-start mt-5 position-relative">
-      <div class="w-auto p-3">
-          <hr class="mb-4 mt-0" style="width: 30px; background-color: #7c4dff; height: 2px" />
-            <p>
-                Universidad de Panamá<br>
-                Centro Regional Universitario de Azuero
-            </p>
+        <div class="container">
+            <div class="row justify-content-between">
+                <div class="col-12 col-md-6 text-center text-md-start mb-3 mb-md-0">
+                    <hr class="mb-4 mt-0" style="width: 30px; background-color: #7c4dff; height: 2px" />
+                    <p>
+                        Universidad de Panamá<br>
+                        Centro Regional Universitario de Azuero
+                    </p>
+                </div>
+                <div class="col-12 col-md-4 d-flex flex-column align-items-center align-items-md-end">
+                    <img src="./img/deptinnovacion.png" alt="Innovación Tecnológica" class="img-fluid mb-2" style="max-width: 100px;" />
+                    <p>innovacion.crua@up.ac.pa</p>
+                </div>
+            </div>
         </div>
-        <div class="col-md-4 position-absolute" style="top: 0; right: 0; display: flex; flex-direction: column; align-items: flex-end;">
-            <img src="./img/deptinnovacion.png" alt="Innovación Tecnológica" class="img-fluid" style="max-width: 100px;" />
-            <p style="margin-left: -50px;">innovacion.crua@up.ac.pa</p>
-        </div>
-    </div>
+    </section>
 </footer>
   <script>
     let datos = [];  // Aquí guardaremos los datos obtenidos
@@ -197,65 +219,61 @@
             })
             .catch(error => console.error('Error:', error));
     }
-// Función para mostrar los datos en la tabla
-function mostrarDatos() {
-    const tblDatos = document.getElementById("tblDatos");
-    tblDatos.innerHTML = ""; // Limpiar toda la tabla
+    function mostrarDatos() {
+     const tblDatos = document.getElementById("tblDatos");
+     tblDatos.innerHTML = ""; // Limpiar toda la tabla
 
-    // Crear encabezado
-    const encabezado = tblDatos.createTHead();
-    const filaEncabezado = encabezado.insertRow();
-    filaEncabezado.classList.add("table-primary");
-    filaEncabezado.insertCell().textContent = "Id";
-    filaEncabezado.insertCell().textContent = "Nombre";
-    filaEncabezado.insertCell().textContent = "Apellido";
-    filaEncabezado.insertCell().textContent = "Cedula";
-    filaEncabezado.insertCell().textContent = "Fecha";
-    filaEncabezado.insertCell().textContent = "Telefono";
-    filaEncabezado.insertCell().textContent = "Entidad";
-    filaEncabezado.insertCell().textContent = "Tipo de atencion";
-    filaEncabezado.insertCell().textContent = "Detalle de Atención";
-    filaEncabezado.insertCell().textContent = "Acciones";
+     // Crear encabezado
+     const encabezado = tblDatos.createTHead();
+     const filaEncabezado = encabezado.insertRow();
+     filaEncabezado.classList.add("table-primary");
+     filaEncabezado.insertCell().textContent = "Id";
+     filaEncabezado.insertCell().textContent = "Nombre";
+     filaEncabezado.insertCell().textContent = "Apellido";
+     filaEncabezado.insertCell().textContent = "Cedula";
+     filaEncabezado.insertCell().textContent = "Fecha";
+     filaEncabezado.insertCell().textContent = "Telefono";
+     filaEncabezado.insertCell().textContent = "Entidad";
+     filaEncabezado.insertCell().textContent = "Tipo de atencion";
+     filaEncabezado.insertCell().textContent = "Detalle de Atención";
+     filaEncabezado.insertCell().textContent = "Acciones";
 
-    // Crear cuerpo de la tabla
-    const cuerpo = tblDatos.createTBody();
+     // Crear cuerpo de la tabla
+     const cuerpo = tblDatos.createTBody();
 
-    const inicio = (paginaActual - 1) * registrosPorPagina;
-    const fin = Math.min(inicio + registrosPorPagina, datos.length);
+     const inicio = (paginaActual - 1) * registrosPorPagina;
+     const fin = Math.min(inicio + registrosPorPagina, datos.length);
 
-    for (let i = inicio; i < fin; i++) {
-        const fila = cuerpo.insertRow();
-        const row = datos[i];
+     for (let i = inicio; i < fin; i++) {
+         const fila = cuerpo.insertRow();
+         const row = datos[i];
 
-        for (const key in row) {
-            const celda = fila.insertCell();
-            celda.textContent = row[key];
+         for (const key in row) {
+             const celda = fila.insertCell();
+             celda.textContent = row[key];
+         }
+
+         const celdaAccion = fila.insertCell();
+         celdaAccion.innerHTML = `
+    <button type="button" class="btn btn-success btn-sm editarFila" data-bs-toggle="modal" data-bs-target="#editModal"
+        data-id="${row.id}" 
+        data-nombre="${row.Nombre}" 
+        data-apellido="${row.Apellido}" 
+        data-cedula="${row.Cedula}"
+        data-fecha="${row.Fecha}"
+        data-telefono="${row.Telefono}"
+        data-entidad="${row.Entidad}"
+        data-tipoatencion="${row.Tipoatencion}"
+        data-otro="${row.Otro}">
+        Editar
+  </button>
+  <button type="button" class="btn btn-danger btn-sm eliminarFila" data-id="${row.id}">
+      Eliminar
+  </button>
+`;
         }
-
-        const celdaAccion = fila.insertCell();
-        celdaAccion.innerHTML = `
-        <button type="button" class="btn btn-danger btn-sm eliminarFila" data-id="${row.id}">
-            Eliminar
-        </button>
-        <button type="button" class="btn btn-success btn-sm editarFila" data-bs-toggle="modal" data-bs-target="#editModal"
-            data-id="${row.id}" 
-            data-nombre="${row.Nombre}" 
-            data-apellido="${row.Apellido}" 
-            data-cedula="${row.Cedula}"
-            data-fecha="${row.Fecha}"
-            data-telefono="${row.Telefono}"
-            data-entidad="${row.Entidad}"
-            data-tipoatencion="${row.Tipoatencion}"
-            data-otro="${row.Otro}">
-            Editar
-        </button>
-    `;
+mostrarPaginacion();
     }
-
-    mostrarPaginacion();
-}
-
-
 function mostrarPaginacion() {
     const paginador = document.getElementById("paginador");
     const totalPaginas = Math.ceil(datos.length / registrosPorPagina);
@@ -375,10 +393,6 @@ document.getElementById("campo").addEventListener("input", myFunction);
         }
     });
 });
-
-
-            
-
             $('#cerrarsesion').click(function(e) {
                     e.preventDefault(); 
 
@@ -400,6 +414,5 @@ document.getElementById("campo").addEventListener("input", myFunction);
                 });
 
     </script>
-  
   </body>
 </html>
